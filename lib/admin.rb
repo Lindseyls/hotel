@@ -15,7 +15,7 @@ module Hotel
     end
 
     def list_rooms
-      @room
+      @rooms
     end
 
 

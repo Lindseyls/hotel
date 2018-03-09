@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "Admin class" do
+xdescribe "Admin class" do
   describe "Initializer" do
 
     it "must be an instance of admin" do
@@ -31,23 +31,23 @@ describe "Admin class" do
   end # end of describe "Initializer"
 
 
-  def "list_rooms method" do
+  describe "list_rooms method" do
 
   end
 
 
-  def "add_reservation(check_in, check_out) method" do
+  describe "add_reservation(check_in, check_out) method" do
 
   end
 
 
-  def "list_reservations(date)" do
+  describe "list_reservations(date)" do
 
   end
 
 
-  def "total_cost(reservation)" do
+  describe "total_cost(reservation)" do
 
   end
 
-end # describe "Admin class"
+end # end of describe "Admin class"
