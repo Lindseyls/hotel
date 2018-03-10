@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "Reservation class" do
+xdescribe "Reservation class" do
   describe "Initializer" do
     before do
       @check_in = Date.new(2018, 4, 14)

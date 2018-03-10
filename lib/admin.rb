@@ -15,13 +15,19 @@ module Hotel
     end
 
     # def list_rooms
-    #   @rooms
-    #   # binding.pry
+    #   return @rooms
     # end
-    #
+
 
     def add_reservation(check_in, check_out)
 
+      date_check(check_in)
+      date_check(check_out)
+
+      reservation = Hotel::Reservation.new(check_in, check_out, rooms.sample)
+      @reservations << reservation
+      # binding.pry
+      return reservation
     end
 
 
@@ -30,18 +36,27 @@ module Hotel
     end
 
 
-    def total_cost(reservation)
+    # def total_cost(reservation)
+    #
+    # end
 
-    end
 
     private
 
+    # .each loop to create a list of all 20 rooms
     def list_of_rooms
       rooms = []
       (1..20).to_a.each do |num|
         rooms << Hotel::Room.new(num, 200)
       end
       return rooms
+    end
+
+    # check to see if the check_in and check_out date inputs are valid
+    def date_check(date)
+      if date.class != Date
+        raise ArgumentError.new("Invalid date")
+      end
     end
 
   end # end of Admin class
