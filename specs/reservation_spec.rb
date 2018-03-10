@@ -1,19 +1,12 @@
 require_relative 'spec_helper'
 
-xdescribe "Reservation class" do
+describe "Reservation class" do
   describe "Initializer" do
     before do
       @check_in = Date.new(2018, 4, 14)
       @check_out = Date.new(2018, 4, 21)
       @room = Hotel::Room.new(9, 200)
       @reservation = Hotel::Reservation.new(@check_in, @check_out, @room)
-    end
-
-    it "must raise an ArgumentError if the check_out date is invalid" do
-      check_in = Date.new(2018, 4, 12)
-      check_out = Date.new(2018, 4, 10)
-      room_1 = Hotel::Room.new(9, 200)
-      proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
     end
 
     it "must be an instance of reservation" do
@@ -32,7 +25,7 @@ xdescribe "Reservation class" do
       @reservation.check_out.must_equal @check_out
     end
 
-    it "reas in the correct room information" do
+    it "reads in the correct room information" do
       @reservation.must_respond_to :room
       @reservation.room.must_be_instance_of Hotel::Room
       @reservation.room.room_num.must_equal 9
@@ -43,6 +36,13 @@ xdescribe "Reservation class" do
       @reservation.must_respond_to :total_cost
       @reservation.total_cost.must_be_kind_of Integer
       @reservation.total_cost.must_equal 1400
+    end
+
+    it "must raise an ArgumentError if the check_out date is invalid" do
+      check_in = Date.new(2018, 4, 12)
+      check_out = Date.new(2018, 4, 10)
+      room_1 = Hotel::Room.new(9, 200)
+      proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
     end
 
   end # end of describe "Initializer"
