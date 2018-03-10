@@ -7,10 +7,7 @@ module Hotel
 
     def initialize(check_in, check_out, room)
 
-      # raises ArgumentError if the check_in date is before the check_out date
-      if check_in >= check_out
-        raise ArgumentError.new("Invalid check_out date: #{check_out} must be later than #{check_in}")
-      end
+      date_range_check(check_in, check_out)
 
       @check_in = date_check(check_in)
       @check_out = date_check(check_out)
@@ -20,10 +17,17 @@ module Hotel
 
     private
 
-    # check to see if the check_in and check_out date inputs are valid
+    # check to see if the date range is invalid
+    def date_range_check(check_in, check_out)
+      if check_in >= check_out
+        raise ArgumentError.new("Invalid check_out date: #{check_out} must be later than #{check_in}")
+      end
+    end
+
+    # check to see if the check_in and check_out dates are invalid
     def date_check(date)
       if date.class != Date
-        raise ArgumentError.new("Invalid date")
+        raise ArgumentError.new("Invalid date: #{date}")
       else
         return date
       end

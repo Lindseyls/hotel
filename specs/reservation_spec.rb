@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
 describe "Reservation class" do
-  describe "Initializer" do
+  describe "initialize" do
     before do
       @check_in = Date.new(2018, 4, 14)
       @check_out = Date.new(2018, 4, 21)
@@ -38,12 +38,19 @@ describe "Reservation class" do
       @reservation.total_cost.must_equal 1400
     end
 
-    it "must raise an ArgumentError if the check_out date is invalid" do
+    it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
+      check_in = Date.new(2018412)
+      check_out = Date.new(2018410)
+      room_1 = Hotel::Room.new(9, 200)
+      proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
+    end
+
+    it "must raise an ArgumentError if the date range is invalid" do
       check_in = Date.new(2018, 4, 12)
       check_out = Date.new(2018, 4, 10)
       room_1 = Hotel::Room.new(9, 200)
       proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
     end
 
-  end # end of describe "Initializer"
+  end # end of describe "initialize"
 end # end of describe "Reservation class"
