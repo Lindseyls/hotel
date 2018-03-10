@@ -11,7 +11,7 @@ module Hotel
     # raises ArgumentError if the room number is not between 1 and 20
     def hotel_room(number)
       unless (1..20).include? number
-        raise ArgumentError.new("Invalid room number #{number}")
+        raise ArgumentError.new("Invalid room number: #{number}")
       end
       @room_num = number
     end
