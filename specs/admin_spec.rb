@@ -67,13 +67,37 @@ describe "Admin class" do
       check_out = Date.new(2018, 4, 10)
       proc { @admin.add_reservation(check_in, check_out) }.must_raise ArgumentError
     end
-    
+
   end # end of describe "add_reservation method" do
 
 
-  describe "list_reservations(date)" do
+  describe "list_reservations method" do
+    before do
+      @admin = Hotel::Admin.new
+      @admin.add_reservation(Date.new(2018, 3, 22), Date.new(2018, 3, 24))
+      @admin.add_reservation(Date.new(2018, 4, 21), Date.new(2018, 4, 24))
+      @admin.add_reservation(Date.new(2018, 4, 22), Date.new(2018, 4, 24))
+    end
 
-  end
+    it "correctly adds all the new reservations" do
+      reservations = @admin.list_reservations(Date.new(2018, 4, 22))
 
+      @admin.reservations.length.must_equal 3
+      reservations.length.must_equal 2
+    end
 
+    it "returns zero if no reservations are found" do
+      reservations = @admin.list_reservations(Date.new(2018, 3, 10))
+
+      reservations.length.must_equal 0
+    end
+
+    it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
+      check_in = 2018-03-04
+      check_out = 2018-03-06
+      proc { @admin.list_reservations(check_in) }.must_raise ArgumentError
+      proc { @admin.list_reservations(check_out) }.must_raise ArgumentError
+    end
+
+  end # end of describe "list_reservations method"
 end # end of describe "Admin class"

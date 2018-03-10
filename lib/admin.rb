@@ -33,8 +33,15 @@ module Hotel
 
       date_check(date)
 
+      reserved_list = []
 
+      @reservations.each do |reservation|
+        if reservation.check_in <= date && reservation.check_out >= date
+          reserved_list << reservation
+        end
+      end
 
+      return reserved_list
 
     end
 
