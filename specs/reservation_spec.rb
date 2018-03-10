@@ -39,8 +39,8 @@ describe "Reservation class" do
     end
 
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
-      check_in = Date.new(2018412)
-      check_out = Date.new(2018410)
+      check_in = 201841
+      check_out = 2018410
       room_1 = Hotel::Room.new(9, 200)
       proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
     end
