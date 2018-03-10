@@ -23,10 +23,11 @@ module Hotel
 
       date_check(check_in)
       date_check(check_out)
+      date_range_check(check_in, check_out)
 
       reservation = Hotel::Reservation.new(check_in, check_out, rooms.sample)
       @reservations << reservation
-      # binding.pry
+      binding.pry
       return reservation
     end
 
@@ -56,6 +57,12 @@ module Hotel
     def date_check(date)
       if date.class != Date
         raise ArgumentError.new("Invalid date")
+      end
+    end
+
+    def date_range_check(check_in, check_out)
+      if check_in >= check_out
+        raise ArgumentError.new("Invalid check_out date: #{check_out} must be later than #{check_in}")
       end
     end
 

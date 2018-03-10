@@ -50,6 +50,19 @@ describe "Admin class" do
       reservation.must_be_instance_of Hotel::Reservation
     end
 
+    it "correctly list the reserved room" do
+      @check_in = Date.new(2018, 4, 14)
+      @check_out = Date.new(2018, 4, 21)
+      admin = Hotel::Admin.new
+      reservation = admin.add_reservation(@check_in, @check_out)
+
+      reservation.check_in.must_be_kind_of Date
+      reservation.check_out.must_be_kind_of Date
+      reservation.room.room_num.must_be_kind_of Integer
+      reservation.room.rate.must_equal 200
+      reservation.total_cost.must_equal 1400
+    end
+
   end # end of describe "add_reservation(check_in, check_out) method" do
 
 
