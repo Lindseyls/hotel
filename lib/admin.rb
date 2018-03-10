@@ -14,10 +14,11 @@ module Hotel
       @reservations = []
     end
 
-    def list_rooms
-      @rooms
-    end
-
+    # def list_rooms
+    #   @rooms
+    #   # binding.pry
+    # end
+    #
 
     def add_reservation(check_in, check_out)
 
