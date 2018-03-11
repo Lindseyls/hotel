@@ -26,11 +26,12 @@ module Hotel
 
     # check to see if the check_in and check_out dates are invalid
     def date_check(date)
-      if date.class != Date
-        raise ArgumentError.new("Invalid date: #{date}")
-      else
-        return date
+      if date.class == String
+        date = Date.parse(date)
+      elsif date.class != Date
+        raise ArgumentError.new("Invalid date: #{date}. Please enter date in the form of '2018, 03, 10'")
       end
+      return date
     end
 
     # helper method to calculate the total cost of the reservation

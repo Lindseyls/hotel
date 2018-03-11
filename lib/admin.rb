@@ -20,9 +20,13 @@ module Hotel
       date_check(check_out)
       date_range_check(check_in, check_out)
 
-      reservation = Hotel::Reservation.new(check_in, check_out, rooms.sample)
+      available_rooms = available_rooms(check_in, check_out)
+      if available_rooms.empty?
+        raise Exception.new("Sorry for the inconvenience. No rooms are available for the date range")
+      end
+
+      reservation = Hotel::Reservation.new(check_in, check_out, available_rooms.sample)
       @reservations << reservation
-      # binding.pry
 
       return reservation
 
@@ -45,6 +49,27 @@ module Hotel
 
     end
 
+    def available_rooms(check_in, check_out)
+
+      date_check(check_in)
+      date_check(check_out)
+      date_range_check(check_in, check_out)
+
+      available_list = []
+
+      (check_in...check_out).to_a.each do |date|
+        available_list << empty_rooms(date)
+      end
+
+      available_rooms = available_list[0]
+      (available_list.length - 1).times do |i|
+        available_rooms = available_rooms & available_list[i + 1]
+      end
+      # binding.pry
+      return available_rooms
+
+    end
+
 
     private
 
@@ -59,9 +84,12 @@ module Hotel
 
     # check to see if the check_in and check_out dates are invalid
     def date_check(date)
-      if date.class != Date
-        raise ArgumentError.new("Invalid date: #{date}")
+      if date.class == String
+        date = Date.parse(date)
+      elsif date.class != Date
+        raise ArgumentError.new("Invalid date: #{date}. Please enter date in the form of '2018, 03, 10'")
       end
+      return date
     end
 
     # check to see if the date range is invalid
@@ -69,6 +97,18 @@ module Hotel
       if check_in >= check_out
         raise ArgumentError.new("Invalid check_out date: #{check_out} must be later than #{check_in}")
       end
+    end
+
+    def empty_rooms(date)
+      date_check(date)
+
+      reservation_list = list_reservations(date)
+      reserved_rooms = []
+
+      reservation_list.each do |reservation|
+        reserved_rooms << reservation.room
+      end
+      return @rooms - reserved_rooms
     end
 
   end # end of Admin class

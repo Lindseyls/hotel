@@ -23,7 +23,6 @@ describe "Admin class" do
       @admin.must_respond_to :reservations
       @admin.reservations.must_be_kind_of Array
       @admin.reservations.length.must_equal 0
-
     end
 
   end # end of describe "initialize"
@@ -57,8 +56,8 @@ describe "Admin class" do
     end
 
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
-      check_in = Date.new(2018412)
-      check_out = Date.new(2018410)
+      check_in = 2018412
+      check_out = 2018410
       proc { @admin.add_reservation(check_in, check_out) }.must_raise ArgumentError
     end
 
@@ -68,8 +67,17 @@ describe "Admin class" do
       proc { @admin.add_reservation(check_in, check_out) }.must_raise ArgumentError
     end
 
-  end # end of describe "add_reservation method" do
+    it "must raise an Exception if there are no rooms available" do
+      admin = Hotel::Admin.new
 
+      20.times do
+        admin.add_reservation(Date.new(2018, 4, 14), Date.new(2018, 4, 21))
+      end
+
+      proc { admin.add_reservation(Date.new(2018, 4, 14), Date.new(2018, 4, 21)) }.must_raise Exception
+    end
+
+  end # end of describe "add_reservation method" do
 
   describe "list_reservations method" do
     before do
@@ -100,4 +108,45 @@ describe "Admin class" do
     end
 
   end # end of describe "list_reservations method"
+
+  describe "available_rooms method" do
+    before do
+      @check_in = Date.new(2018, 4, 14)
+      @check_out = Date.new(2018, 4, 21)
+      @admin = Hotel::Admin.new
+    end
+
+    it "lists out all the empty rooms with the given date range" do
+      @admin.add_reservation(@check_in, @check_out)
+
+      available_list = @admin.available_rooms(@check_in, @check_out)
+
+      available_list.length.must_equal 19
+      available_list.must_be_kind_of Array
+    end
+
+    it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
+      check_in = 2018412
+      check_out = 2018410
+      proc { @admin.available_rooms(check_in, check_out) }.must_raise ArgumentError
+    end
+
+    it "must raise an ArgumentError if the date range is invalid" do
+      check_in = Date.new(2018, 4, 12)
+      check_out = Date.new(2018, 4, 10)
+      proc { @admin.available_rooms(check_in, check_out) }.must_raise ArgumentError
+    end
+
+    it "must return an empty Array if no rooms are available" do
+      20.times do
+        @admin.add_reservation(@check_in, @check_out)
+      end
+
+      find_available_rooms = @admin.available_rooms(@check_in, @check_out)
+
+      find_available_rooms.length.must_equal 0
+      find_available_rooms.must_be_kind_of Array
+    end
+
+  end # end of describe "available_rooms method"
 end # end of describe "Admin class"
