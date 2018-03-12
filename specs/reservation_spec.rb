@@ -38,18 +38,18 @@ describe "Reservation class" do
       @reservation.total_cost.must_equal 1400
     end
 
-    # it "correctly returns the date if the check_in and check_out dates are strings" do
-    #   check_in = '2018414'
-    #   check_out = '2018421'
-    #   room_1 = Hotel::Room.new(9, 200)
-    #   reservation1 = Hotel::Reservation.new(check_in, check_out, room_1)
-    #
-    #   # reservation.check_in.must_be_kind_of Date
-    #   # reservation.check_out.must_be_kind_of Date
-    #   reservation.room.room_num.must_equal 9
-    #   reservation.room.rate.must_equal 200
-    #   reservation1.total_cost.must_equal 1400
-    # end
+    it "correctly returns the date if the check_in and check_out dates are strings" do
+      check_in = "2018-4-14"
+      check_out = "2018-4-21"
+      room_1 = Hotel::Room.new(9, 200)
+      reservation1 = Hotel::Reservation.new(check_in, check_out, room_1)
+
+      reservation1.check_in.must_be_kind_of Date
+      reservation1.check_out.must_be_kind_of Date
+      reservation1.room.room_num.must_equal 9
+      reservation1.room.rate.must_equal 200
+      reservation1.total_cost.must_equal 1400
+    end
 
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
       check_in = 201841

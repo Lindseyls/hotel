@@ -55,6 +55,18 @@ describe "Admin class" do
       @admin.reservations.length.must_equal number_of_reserved_rooms
     end
 
+    it "correctly returns the date if the check_in and check_out dates are strings" do
+      check_in = "2018-4-14"
+      check_out = "2018-4-21"
+      admin_1 = Hotel::Admin.new
+      reservation1 = admin_1.add_reservation(check_in, check_out)
+
+      reservation1.check_in.must_be_kind_of Date
+      reservation1.check_out.must_be_kind_of Date
+      reservation1.room.rate.must_equal 200
+      reservation1.total_cost.must_equal 1400
+    end
+
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
       check_in = 2018412
       check_out = 2018410
@@ -100,6 +112,18 @@ describe "Admin class" do
       reservations.length.must_equal 0
     end
 
+    it "correctly returns the date if the check_in and check_out dates are strings" do
+      check_in = "2018-4-14"
+      check_out = "2018-4-21"
+      admin_1 = Hotel::Admin.new
+      reservation1 = admin_1.add_reservation(check_in, check_out)
+
+      reservation1.check_in.must_be_kind_of Date
+      reservation1.check_out.must_be_kind_of Date
+      reservation1.room.rate.must_equal 200
+      reservation1.total_cost.must_equal 1400
+    end
+
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
       check_in = 2018-03-04
       check_out = 2018-03-06
@@ -125,6 +149,18 @@ describe "Admin class" do
       available_list.must_be_kind_of Array
     end
 
+    it "correctly returns the date if the check_in and check_out dates are strings" do
+      check_in = "2018-4-14"
+      check_out = "2018-4-21"
+      admin_1 = Hotel::Admin.new
+      reservation1 = admin_1.add_reservation(check_in, check_out)
+
+      reservation1.check_in.must_be_kind_of Date
+      reservation1.check_out.must_be_kind_of Date
+      reservation1.room.rate.must_equal 200
+      reservation1.total_cost.must_equal 1400
+    end
+    
     it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
       check_in = 2018412
       check_out = 2018410

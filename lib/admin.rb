@@ -1,6 +1,4 @@
 require 'date'
-require 'pry'
-require 'awesome_print'
 
 require_relative 'reservation'
 require_relative 'room'
@@ -65,7 +63,7 @@ module Hotel
       (available_list.length - 1).times do |i|
         available_rooms = available_rooms & available_list[i + 1]
       end
-      # binding.pry
+
       return available_rooms
 
     end
@@ -99,6 +97,7 @@ module Hotel
       end
     end
 
+    # check to see if the given date input has any avilable empty rooms
     def empty_rooms(date)
       date_check(date)
 
