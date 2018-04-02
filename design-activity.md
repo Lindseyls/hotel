@@ -71,3 +71,18 @@ Implementation B better adheres to the single responsibility principles because 
 <!-- 10. Bonus question once you've read Metz ch. 3: Which implementation is more loosely coupled? -->
 
 Continuing off of my previous answer, implementation B is more loosely coupled because if there is a change in one class it will not affect the other two classes. Especially in the Order class. Whereas in implementation A, if any changes were to be done to the first two classes, this could drastically change the code of Order class because it depends on both "low level" classes.
+
+
+<!-- Hotel Revisited: Based on the answers to the above questions, identify one place in your Hotel project where a class takes on multiple roles, or directly modifies the attributes of another class. Describe in design-activity.md what changes you would need to make to improve this design, and how the resulting design would be an improvement. -->
+
+Based on the answers to the above questions, one of the places in my Hotel project where a class takes on multiple roles is the Admin class. The Admin class has dependency on both the Room and Reservation class. Also, the private method to check the date range and to see if the date inputs are valid are repeated in both the Admin and Reservation class.
+
+Here are the steps I took to make my Hotel project more Object Oriented with single responsibilities:
+
+-> Created new files date_range.rb and date_range_spec.rb
+-> Created the DateRange class to remove the date_range method from the Reservation and Admin classes. Also, the date_check method, which stayed as a private method.
+-> Updated the Reservation class to not be dependent on the Room class and created instance variables, rate.
+-> Updated the Admin class to not be dependent of the Room class.
+-> Updated the specs accordingly and made sure the dependency is as loose as possible.
+
+Afte the re-design that I made, I believe the logic is no longer heavily within Admin class. Although the logic could be spread out more evenly onto the Room class. The Admin class is now only dependent on the Revservation class. Maybe if I am able to add the block function for Hotel wave 3 then I will consider moving more logic into the Room class.

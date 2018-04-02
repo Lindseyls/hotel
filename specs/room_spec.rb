@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 
 describe "Room class" do
+
   describe "initialize" do
     before do
       @room = Hotel::Room.new(9, 200)
@@ -11,9 +12,9 @@ describe "Room class" do
     end
 
     it "reads the room number" do
-      @room.must_respond_to :room_num
-      @room.room_num.must_be_kind_of Integer
-      @room.room_num.must_equal 9
+      @room.must_respond_to :room
+      @room.room.must_be_kind_of Integer
+      @room.room.must_equal 9
     end
 
     it "reads the rate of the @room" do

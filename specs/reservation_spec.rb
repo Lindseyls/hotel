@@ -1,69 +1,51 @@
 require_relative 'spec_helper'
 
 describe "Reservation class" do
+
+  before do
+    @check_in = Date.new(2018, 4, 14)
+    @check_out = Date.new(2018, 4, 21)
+    @room = 9
+    @rate = 200
+    @reservation = Hotel::Reservation.new(@check_in, @check_out, @room, @rate)
+  end
+
   describe "initialize" do
-    before do
-      @check_in = Date.new(2018, 4, 14)
-      @check_out = Date.new(2018, 4, 21)
-      @room = Hotel::Room.new(9, 200)
-      @reservation = Hotel::Reservation.new(@check_in, @check_out, @room)
-    end
 
     it "must be an instance of reservation" do
       @reservation.must_be_instance_of Hotel::Reservation
     end
 
     it "reads the check_in date" do
-      @reservation.must_respond_to :check_in
       @reservation.check_in.must_be_kind_of Date
       @reservation.check_in.must_equal @check_in
     end
 
     it "reads the check_out date" do
-      @reservation.must_respond_to :check_out
       @reservation.check_out.must_be_kind_of Date
       @reservation.check_out.must_equal @check_out
     end
 
+    it "is a kind of DateRange" do
+      @reservation.must_be_kind_of Hotel::DateRange
+    end
+
     it "reads in the correct room information" do
       @reservation.must_respond_to :room
-      @reservation.room.must_be_instance_of Hotel::Room
-      @reservation.room.room_num.must_equal 9
-      @reservation.room.rate.must_equal 200
+      @reservation.room.must_equal 9
     end
 
-    it "reads in the rate and calculates the correct total cost" do
-      @reservation.must_respond_to :total_cost
-      @reservation.total_cost.must_be_kind_of Integer
-      @reservation.total_cost.must_equal 1400
+    it "reads in the correct rate information" do
+      @reservation.must_respond_to :rate
+      @reservation.rate.must_equal 200
     end
-
-    it "correctly returns the date if the check_in and check_out dates are strings" do
-      check_in = "2018-4-14"
-      check_out = "2018-4-21"
-      room_1 = Hotel::Room.new(9, 200)
-      reservation1 = Hotel::Reservation.new(check_in, check_out, room_1)
-
-      reservation1.check_in.must_be_kind_of Date
-      reservation1.check_out.must_be_kind_of Date
-      reservation1.room.room_num.must_equal 9
-      reservation1.room.rate.must_equal 200
-      reservation1.total_cost.must_equal 1400
-    end
-
-    it "must raise an ArgumentError if the check_in and/or check_out date is invalid" do
-      check_in = 201841
-      check_out = 2018410
-      room_1 = Hotel::Room.new(9, 200)
-      proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
-    end
-
-    it "must raise an ArgumentError if the date range is invalid" do
-      check_in = Date.new(2018, 4, 12)
-      check_out = Date.new(2018, 4, 10)
-      room_1 = Hotel::Room.new(9, 200)
-      proc { Hotel::Reservation.new(check_in, check_out, room_1) }.must_raise ArgumentError
-    end
-
   end # end of describe "initialize"
+
+  describe "calculate_total_cost" do
+    it "calculates the price" do
+      expected_price = @rate * (@check_out - @check_in)
+      @reservation.total_cost.must_equal expected_price
+    end
+  end
+
 end # end of describe "Reservation class"
